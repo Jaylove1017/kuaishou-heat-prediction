@@ -1,0 +1,21 @@
+# 数据文件体积过大（原始约 350 MB，清洗后约 580 MB），不随仓库分发
+data/raw/*
+data/clean/*
+!data/README.md
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 临时产物
+*.bak
+*.log

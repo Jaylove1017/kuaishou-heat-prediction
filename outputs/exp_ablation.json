@@ -1,0 +1,458 @@
+{
+  "split_day": 20200821,
+  "test_rows": 92735,
+  "test_days": 14,
+  "seed": 42,
+  "feature_groups": {
+    "CONTENT": [
+      "dur_log",
+      "is_ad",
+      "up_type_idx",
+      "tag_idx",
+      "dow"
+    ],
+    "HEAT": [
+      "play_user_num",
+      "like_user_num",
+      "complete_play_cnt",
+      "like_rate",
+      "complete_rate"
+    ],
+    "INERTIA": [
+      "lag1_like",
+      "lag2_like",
+      "lag3_like",
+      "lag1_playuser",
+      "lag2_playuser",
+      "lag3_playuser",
+      "lag1_likerate",
+      "roll7_like",
+      "roll7_playuser",
+      "roll7_complete",
+      "n_prior_days",
+      "gap_days"
+    ]
+  },
+  "groups": [
+    {
+      "id": "G1",
+      "name": "仅内容属性",
+      "n_feat": 5,
+      "features": [
+        "dur_log",
+        "is_ad",
+        "up_type_idx",
+        "tag_idx",
+        "dow"
+      ]
+    },
+    {
+      "id": "G2",
+      "name": "仅当日热度",
+      "n_feat": 5,
+      "features": [
+        "play_user_num",
+        "like_user_num",
+        "complete_play_cnt",
+        "like_rate",
+        "complete_rate"
+      ]
+    },
+    {
+      "id": "G3",
+      "name": "仅惯性趋势",
+      "n_feat": 12,
+      "features": [
+        "lag1_like",
+        "lag2_like",
+        "lag3_like",
+        "lag1_playuser",
+        "lag2_playuser",
+        "lag3_playuser",
+        "lag1_likerate",
+        "roll7_like",
+        "roll7_playuser",
+        "roll7_complete",
+        "n_prior_days",
+        "gap_days"
+      ]
+    },
+    {
+      "id": "G4",
+      "name": "内容＋当日热度",
+      "n_feat": 10,
+      "features": [
+        "dur_log",
+        "is_ad",
+        "up_type_idx",
+        "tag_idx",
+        "dow",
+        "play_user_num",
+        "like_user_num",
+        "complete_play_cnt",
+        "like_rate",
+        "complete_rate"
+      ]
+    },
+    {
+      "id": "G5",
+      "name": "内容＋惯性",
+      "n_feat": 17,
+      "features": [
+        "dur_log",
+        "is_ad",
+        "up_type_idx",
+        "tag_idx",
+        "dow",
+        "lag1_like",
+        "lag2_like",
+        "lag3_like",
+        "lag1_playuser",
+        "lag2_playuser",
+        "lag3_playuser",
+        "lag1_likerate",
+        "roll7_like",
+        "roll7_playuser",
+        "roll7_complete",
+        "n_prior_days",
+        "gap_days"
+      ]
+    },
+    {
+      "id": "G6",
+      "name": "内容＋惯性−roll7",
+      "n_feat": 16,
+      "features": [
+        "dur_log",
+        "is_ad",
+        "up_type_idx",
+        "tag_idx",
+        "dow",
+        "lag1_like",
+        "lag2_like",
+        "lag3_like",
+        "lag1_playuser",
+        "lag2_playuser",
+        "lag3_playuser",
+        "lag1_likerate",
+        "roll7_playuser",
+        "roll7_complete",
+        "n_prior_days",
+        "gap_days"
+      ]
+    },
+    {
+      "id": "G7",
+      "name": "全部 22 维",
+      "n_feat": 22,
+      "features": [
+        "dur_log",
+        "is_ad",
+        "up_type_idx",
+        "tag_idx",
+        "dow",
+        "play_user_num",
+        "like_user_num",
+        "complete_play_cnt",
+        "like_rate",
+        "complete_rate",
+        "lag1_like",
+        "lag2_like",
+        "lag3_like",
+        "lag1_playuser",
+        "lag2_playuser",
+        "lag3_playuser",
+        "lag1_likerate",
+        "roll7_like",
+        "roll7_playuser",
+        "roll7_complete",
+        "n_prior_days",
+        "gap_days"
+      ]
+    },
+    {
+      "id": "G8",
+      "name": "全部−roll7",
+      "n_feat": 21,
+      "features": [
+        "dur_log",
+        "is_ad",
+        "up_type_idx",
+        "tag_idx",
+        "dow",
+        "play_user_num",
+        "like_user_num",
+        "complete_play_cnt",
+        "like_rate",
+        "complete_rate",
+        "lag1_like",
+        "lag2_like",
+        "lag3_like",
+        "lag1_playuser",
+        "lag2_playuser",
+        "lag3_playuser",
+        "lag1_likerate",
+        "roll7_playuser",
+        "roll7_complete",
+        "n_prior_days",
+        "gap_days"
+      ]
+    }
+  ],
+  "scenarios": {
+    "abs": {
+      "name": "绝对热度（次日进前25%）",
+      "pos_rate": 24.92,
+      "baseline": {
+        "col": "like_user_num",
+        "auc": 0.9842,
+        "ap": 0.9547,
+        "top20": {
+          "recall": 77.21529941156109,
+          "precision": 96.2515506175503
+        }
+      },
+      "groups": {
+        "G1": {
+          "id": "G1",
+          "name": "仅内容属性",
+          "n_feat": 5,
+          "auc_lr": 0.5954,
+          "auc_xgb": 0.7465,
+          "ap_lr": 0.3173,
+          "ap_xgb": 0.4893,
+          "top20_xgb": {
+            "recall": 40.94409830391139,
+            "precision": 51.038239577153334
+          },
+          "lift_recall_vs_naive": -36.27
+        },
+        "G2": {
+          "id": "G2",
+          "name": "仅当日热度",
+          "n_feat": 5,
+          "auc_lr": 0.9672,
+          "auc_xgb": 0.9785,
+          "ap_lr": 0.9282,
+          "ap_xgb": 0.9462,
+          "top20_xgb": {
+            "recall": 76.95136725510558,
+            "precision": 95.92255002427054
+          },
+          "lift_recall_vs_naive": -0.26
+        },
+        "G3": {
+          "id": "G3",
+          "name": "仅惯性趋势",
+          "n_feat": 12,
+          "auc_lr": 0.9217,
+          "auc_xgb": 0.9707,
+          "ap_lr": 0.8655,
+          "ap_xgb": 0.9251,
+          "top20_xgb": {
+            "recall": 74.70578054690205,
+            "precision": 93.12334825521816
+          },
+          "lift_recall_vs_naive": -2.51
+        },
+        "G4": {
+          "id": "G4",
+          "name": "内容＋当日热度",
+          "n_feat": 10,
+          "auc_lr": 0.9658,
+          "auc_xgb": 0.9789,
+          "ap_lr": 0.9282,
+          "ap_xgb": 0.9466,
+          "top20_xgb": {
+            "recall": 76.99463482173763,
+            "precision": 95.97648454775903
+          },
+          "lift_recall_vs_naive": -0.22
+        },
+        "G5": {
+          "id": "G5",
+          "name": "内容＋惯性",
+          "n_feat": 17,
+          "auc_lr": 0.9177,
+          "auc_xgb": 0.9721,
+          "ap_lr": 0.8614,
+          "ap_xgb": 0.9279,
+          "top20_xgb": {
+            "recall": 74.62357217030114,
+            "precision": 93.02087266059004
+          },
+          "lift_recall_vs_naive": -2.59
+        },
+        "G6": {
+          "id": "G6",
+          "name": "内容＋惯性−roll7",
+          "n_feat": 16,
+          "auc_lr": 0.917,
+          "auc_xgb": 0.9719,
+          "ap_lr": 0.8612,
+          "ap_xgb": 0.9277,
+          "top20_xgb": {
+            "recall": 74.66251298027,
+            "precision": 93.06941373172968
+          },
+          "lift_recall_vs_naive": -2.55
+        },
+        "G7": {
+          "id": "G7",
+          "name": "全部 22 维",
+          "n_feat": 22,
+          "auc_lr": 0.924,
+          "auc_xgb": 0.9813,
+          "ap_lr": 0.8895,
+          "ap_xgb": 0.953,
+          "top20_xgb": {
+            "recall": 77.00761509172725,
+            "precision": 95.99266490480557
+          },
+          "lift_recall_vs_naive": -0.21
+        },
+        "G8": {
+          "id": "G8",
+          "name": "全部−roll7",
+          "n_feat": 21,
+          "auc_lr": 0.9238,
+          "auc_xgb": 0.9808,
+          "ap_lr": 0.8893,
+          "ap_xgb": 0.9521,
+          "top20_xgb": {
+            "recall": 76.89944617514712,
+            "precision": 95.85782859608435
+          },
+          "lift_recall_vs_naive": -0.32
+        }
+      }
+    },
+    "break": {
+      "name": "相对跃升（≥自身7日均值2倍）",
+      "pos_rate": 7.6,
+      "baseline": {
+        "col": "roll7_like",
+        "auc": 0.4265,
+        "ap": 0.0606,
+        "top20": {
+          "recall": 8.203235878512631,
+          "precision": 3.117415457634432
+        }
+      },
+      "groups": {
+        "G1": {
+          "id": "G1",
+          "name": "仅内容属性",
+          "n_feat": 5,
+          "auc_lr": 0.4939,
+          "auc_xgb": 0.531,
+          "ap_lr": 0.0772,
+          "ap_xgb": 0.0823,
+          "top20_xgb": {
+            "recall": 22.793074084587,
+            "precision": 8.661884472250687
+          },
+          "lift_recall_vs_naive": 14.59
+        },
+        "G2": {
+          "id": "G2",
+          "name": "仅当日热度",
+          "n_feat": 5,
+          "auc_lr": 0.5282,
+          "auc_xgb": 0.6055,
+          "ap_lr": 0.0873,
+          "ap_xgb": 0.1057,
+          "top20_xgb": {
+            "recall": 29.406755606017597,
+            "precision": 11.175233266814088
+          },
+          "lift_recall_vs_naive": 21.2
+        },
+        "G3": {
+          "id": "G3",
+          "name": "仅惯性趋势",
+          "n_feat": 12,
+          "auc_lr": 0.638,
+          "auc_xgb": 0.8085,
+          "ap_lr": 0.1237,
+          "ap_xgb": 0.2668,
+          "top20_xgb": {
+            "recall": 57.50780584728924,
+            "precision": 21.854268917534114
+          },
+          "lift_recall_vs_naive": 49.3
+        },
+        "G4": {
+          "id": "G4",
+          "name": "内容＋当日热度",
+          "n_feat": 10,
+          "auc_lr": 0.5066,
+          "auc_xgb": 0.6098,
+          "ap_lr": 0.0812,
+          "ap_xgb": 0.1082,
+          "top20_xgb": {
+            "recall": 29.804144195288107,
+            "precision": 11.326249932581845
+          },
+          "lift_recall_vs_naive": 21.6
+        },
+        "G5": {
+          "id": "G5",
+          "name": "内容＋惯性",
+          "n_feat": 17,
+          "auc_lr": 0.6054,
+          "auc_xgb": 0.808,
+          "ap_lr": 0.1061,
+          "ap_xgb": 0.2669,
+          "top20_xgb": {
+            "recall": 57.649730343457286,
+            "precision": 21.908203441022597
+          },
+          "lift_recall_vs_naive": 49.45
+        },
+        "G6": {
+          "id": "G6",
+          "name": "内容＋惯性−roll7",
+          "n_feat": 16,
+          "auc_lr": 0.6004,
+          "auc_xgb": 0.7773,
+          "ap_lr": 0.1049,
+          "ap_xgb": 0.239,
+          "top20_xgb": {
+            "recall": 52.512063582174285,
+            "precision": 19.95577369073944
+          },
+          "lift_recall_vs_naive": 44.31
+        },
+        "G7": {
+          "id": "G7",
+          "name": "全部 22 维",
+          "n_feat": 22,
+          "auc_lr": 0.6935,
+          "auc_xgb": 0.8814,
+          "ap_lr": 0.1828,
+          "ap_xgb": 0.4569,
+          "top20_xgb": {
+            "recall": 72.48084019301731,
+            "precision": 27.54436114556928
+          },
+          "lift_recall_vs_naive": 64.28
+        },
+        "G8": {
+          "id": "G8",
+          "name": "全部−roll7",
+          "n_feat": 21,
+          "auc_lr": 0.6883,
+          "auc_xgb": 0.8554,
+          "ap_lr": 0.1788,
+          "ap_xgb": 0.4176,
+          "top20_xgb": {
+            "recall": 67.9960261141073,
+            "precision": 25.840030203333153
+          },
+          "lift_recall_vs_naive": 59.79
+        }
+      }
+    }
+  }
+}

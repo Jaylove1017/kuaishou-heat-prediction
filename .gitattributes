@@ -1,0 +1,7 @@
+# 统一换行符，避免 Windows / macOS 差异
+* text=auto eol=lf
+
+# 二进制文件不做换行转换
+*.png binary
+*.gz binary
+*.xlsx binary
