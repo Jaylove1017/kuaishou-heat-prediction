@@ -71,12 +71,15 @@ def main():
         step("5. 评估口径升级（per-day）", os.path.join("experiments", "eval_upgrade.py"))
         step("6. 特征消融（8 组）", os.path.join("experiments", "ablation.py"))
         step("7. 显著性检验（bootstrap + 多种子）", os.path.join("experiments", "significance.py"))
+        step("8. 口径审计（严格次日 / 冷启动 / 切分泄漏）",
+             os.path.join("experiments", "strict_eval.py"))
+        step("9. 播放日志特征（负结果）", os.path.join("experiments", "playlog_features.py"))
 
     print("\n完成。产物见 outputs/ 与 charts/。")
     print("其余实验请单独运行：")
-    print("  python experiments/significance.py    # 差值 95%CI（判断「无增量」是否成立）")
-    print("  python experiments/eval_upgrade.py    # README 全部 top-k 数字的来源")
-    print("  python experiments/ablation.py        # 22 维拆三组，8 组消融")
+    print("  python experiments/breakout_experiment.py  # 跃升标签 + 方向检验")
+    print("  python experiments/baseline_vs_model.py    # 旧口径分段（勿与主表混引）")
+    print("  python experiments/plot_ablation.py        # 只读 json 重出图")
 
 
 if __name__ == "__main__":

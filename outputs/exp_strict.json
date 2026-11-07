@@ -1,0 +1,181 @@
+{
+  "data_rows_active": 320250,
+  "configs": {
+    "A": {
+      "name": "默认（历史口径）",
+      "gap_max": null,
+      "dropna": true,
+      "split_on": "d",
+      "n_samples": 279158,
+      "n_train": 186423,
+      "n_test": 92735,
+      "split_day": 20200821,
+      "pos_rate": 24.92,
+      "auc_model": 0.9811,
+      "auc_naive": 0.9842,
+      "auc_diff": -0.0031,
+      "top20_model": 77.05,
+      "top20_naive": 77.21,
+      "top20_diff": -0.16,
+      "train_label_in_test_window": 7105,
+      "by_history": {
+        "首次活跃(0天)": {
+          "n": 0,
+          "note": "该口径下此段无样本"
+        },
+        "1-2天": {
+          "n": 0,
+          "note": "该口径下此段无样本"
+        },
+        "3-6天": {
+          "n": 5220,
+          "pos": 30.63,
+          "top20_recall": 55.91
+        },
+        "7天以上": {
+          "n": 87515,
+          "pos": 24.58,
+          "top20_recall": 78.0
+        }
+      }
+    },
+    "B": {
+      "name": "严格次日",
+      "gap_max": 1,
+      "dropna": true,
+      "split_on": "d",
+      "n_samples": 259069,
+      "n_train": 176194,
+      "n_test": 82875,
+      "split_day": 20200821,
+      "pos_rate": 24.74,
+      "auc_model": 0.9799,
+      "auc_naive": 0.9835,
+      "auc_diff": -0.0036,
+      "top20_model": 77.26,
+      "top20_naive": 77.6,
+      "top20_diff": -0.34,
+      "train_label_in_test_window": 6104,
+      "by_history": {
+        "首次活跃(0天)": {
+          "n": 0,
+          "note": "该口径下此段无样本"
+        },
+        "1-2天": {
+          "n": 0,
+          "note": "该口径下此段无样本"
+        },
+        "3-6天": {
+          "n": 4562,
+          "pos": 31.92,
+          "top20_recall": 53.37
+        },
+        "7天以上": {
+          "n": 78313,
+          "pos": 24.32,
+          "top20_recall": 78.48
+        }
+      }
+    },
+    "C": {
+      "name": "保留冷启动",
+      "gap_max": null,
+      "dropna": false,
+      "split_on": "d",
+      "n_samples": 309522,
+      "n_train": 210850,
+      "n_test": 98672,
+      "split_day": 20200821,
+      "pos_rate": 25.22,
+      "auc_model": 0.9779,
+      "auc_naive": 0.9802,
+      "auc_diff": -0.0023,
+      "top20_model": 74.53,
+      "top20_naive": 75.23,
+      "top20_diff": -0.7,
+      "train_label_in_test_window": 7261,
+      "by_history": {
+        "首次活跃(0天)": {
+          "n": 2243,
+          "pos": 36.91,
+          "top20_recall": 43.84
+        },
+        "1-2天": {
+          "n": 3694,
+          "pos": 25.69,
+          "top20_recall": 62.91
+        },
+        "3-6天": {
+          "n": 5220,
+          "pos": 30.63,
+          "top20_recall": 55.53
+        },
+        "7天以上": {
+          "n": 87515,
+          "pos": 24.58,
+          "top20_recall": 77.93
+        }
+      }
+    },
+    "D": {
+      "name": "严格次日+按目标日切分",
+      "gap_max": 1,
+      "dropna": false,
+      "split_on": "next_d",
+      "n_samples": 287886,
+      "n_train": 193494,
+      "n_test": 94392,
+      "split_day": 20200821,
+      "pos_rate": 25.03,
+      "auc_model": 0.9757,
+      "auc_naive": 0.9795,
+      "auc_diff": -0.0038,
+      "top20_model": 74.84,
+      "top20_naive": 75.76,
+      "top20_diff": -0.92,
+      "train_label_in_test_window": 0,
+      "by_history": {
+        "首次活跃(0天)": {
+          "n": 2052,
+          "pos": 36.01,
+          "top20_recall": 44.11
+        },
+        "1-2天": {
+          "n": 3361,
+          "pos": 27.37,
+          "top20_recall": 58.59
+        },
+        "3-6天": {
+          "n": 4764,
+          "pos": 33.31,
+          "top20_recall": 51.1
+        },
+        "7天以上": {
+          "n": 84215,
+          "pos": 24.2,
+          "top20_recall": 78.85
+        }
+      }
+    }
+  },
+  "gap_days_distribution": {
+    "n_samples": 309522,
+    "share_gap_le1": 93.01,
+    "share_gap_le7": 95.7,
+    "median": 1.0,
+    "p90": 1.0,
+    "max": 179.0,
+    "backward_gap_median": 1.0,
+    "backward_gap_share_le1": 90.12
+  },
+  "cold_start_loss": {
+    "rows_with_next_day": 309522,
+    "rows_after_dropna": 279158,
+    "dropped": 30364,
+    "dropped_share_pct": 9.81,
+    "cold_rows_total": 30364,
+    "cold_share_of_all_pct": 9.81,
+    "cold_pos_rate": 33.41,
+    "warm_pos_rate": 24.11
+  }
+}

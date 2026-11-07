@@ -208,8 +208,8 @@
         "auc": 0.9842,
         "ap": 0.9547,
         "top20": {
-          "recall": 77.21529941156109,
-          "precision": 96.2515506175503
+          "recall": 77.20664589823468,
+          "precision": 96.2407637128526
         }
       },
       "groups": {
@@ -218,56 +218,56 @@
           "name": "仅内容属性",
           "n_feat": 5,
           "auc_lr": 0.5954,
-          "auc_xgb": 0.7465,
+          "auc_xgb": 0.7426,
           "ap_lr": 0.3173,
-          "ap_xgb": 0.4893,
+          "ap_xgb": 0.4826,
           "top20_xgb": {
-            "recall": 40.94409830391139,
-            "precision": 51.038239577153334
+            "recall": 40.24316372447213,
+            "precision": 50.16450029663988
           },
-          "lift_recall_vs_naive": -36.27
+          "lift_recall_vs_naive": -36.96
         },
         "G2": {
           "id": "G2",
           "name": "仅当日热度",
           "n_feat": 5,
           "auc_lr": 0.9672,
-          "auc_xgb": 0.9785,
+          "auc_xgb": 0.9786,
           "ap_lr": 0.9282,
           "ap_xgb": 0.9462,
           "top20_xgb": {
-            "recall": 76.95136725510558,
-            "precision": 95.92255002427054
+            "recall": 76.93406022845275,
+            "precision": 95.90097621487514
           },
-          "lift_recall_vs_naive": -0.26
+          "lift_recall_vs_naive": -0.27
         },
         "G3": {
           "id": "G3",
           "name": "仅惯性趋势",
           "n_feat": 12,
           "auc_lr": 0.9217,
-          "auc_xgb": 0.9707,
+          "auc_xgb": 0.9711,
           "ap_lr": 0.8655,
-          "ap_xgb": 0.9251,
+          "ap_xgb": 0.9257,
           "top20_xgb": {
-            "recall": 74.70578054690205,
-            "precision": 93.12334825521816
+            "recall": 74.71010730356524,
+            "precision": 93.128741707567
           },
-          "lift_recall_vs_naive": -2.51
+          "lift_recall_vs_naive": -2.5
         },
         "G4": {
           "id": "G4",
           "name": "内容＋当日热度",
           "n_feat": 10,
           "auc_lr": 0.9658,
-          "auc_xgb": 0.9789,
+          "auc_xgb": 0.9792,
           "ap_lr": 0.9282,
-          "ap_xgb": 0.9466,
+          "ap_xgb": 0.9469,
           "top20_xgb": {
-            "recall": 76.99463482173763,
-            "precision": 95.97648454775903
+            "recall": 77.00761509172725,
+            "precision": 95.99266490480557
           },
-          "lift_recall_vs_naive": -0.22
+          "lift_recall_vs_naive": -0.2
         },
         "G5": {
           "id": "G5",
@@ -276,54 +276,54 @@
           "auc_lr": 0.9177,
           "auc_xgb": 0.9721,
           "ap_lr": 0.8614,
-          "ap_xgb": 0.9279,
+          "ap_xgb": 0.928,
           "top20_xgb": {
-            "recall": 74.62357217030114,
-            "precision": 93.02087266059004
+            "recall": 74.68847352024922,
+            "precision": 93.10177444582277
           },
-          "lift_recall_vs_naive": -2.59
+          "lift_recall_vs_naive": -2.52
         },
         "G6": {
           "id": "G6",
           "name": "内容＋惯性−roll7",
           "n_feat": 16,
           "auc_lr": 0.917,
-          "auc_xgb": 0.9719,
+          "auc_xgb": 0.9717,
           "ap_lr": 0.8612,
-          "ap_xgb": 0.9277,
+          "ap_xgb": 0.9271,
           "top20_xgb": {
-            "recall": 74.66251298027,
-            "precision": 93.06941373172968
+            "recall": 74.59761163032191,
+            "precision": 92.98851194649696
           },
-          "lift_recall_vs_naive": -2.55
+          "lift_recall_vs_naive": -2.61
         },
         "G7": {
           "id": "G7",
           "name": "全部 22 维",
           "n_feat": 22,
           "auc_lr": 0.924,
-          "auc_xgb": 0.9813,
+          "auc_xgb": 0.9811,
           "ap_lr": 0.8895,
-          "ap_xgb": 0.953,
+          "ap_xgb": 0.9526,
           "top20_xgb": {
-            "recall": 77.00761509172725,
-            "precision": 95.99266490480557
+            "recall": 77.0508826583593,
+            "precision": 96.04659942829406
           },
-          "lift_recall_vs_naive": -0.21
+          "lift_recall_vs_naive": -0.16
         },
         "G8": {
           "id": "G8",
           "name": "全部−roll7",
           "n_feat": 21,
           "auc_lr": 0.9238,
-          "auc_xgb": 0.9808,
+          "auc_xgb": 0.9812,
           "ap_lr": 0.8893,
-          "ap_xgb": 0.9521,
+          "ap_xgb": 0.9525,
           "top20_xgb": {
-            "recall": 76.89944617514712,
-            "precision": 95.85782859608435
+            "recall": 76.94271374177917,
+            "precision": 95.91176311957284
           },
-          "lift_recall_vs_naive": -0.32
+          "lift_recall_vs_naive": -0.26
         }
       }
     },
@@ -345,84 +345,84 @@
           "name": "仅内容属性",
           "n_feat": 5,
           "auc_lr": 0.4939,
-          "auc_xgb": 0.531,
+          "auc_xgb": 0.5284,
           "ap_lr": 0.0772,
-          "ap_xgb": 0.0823,
+          "ap_xgb": 0.0814,
           "top20_xgb": {
-            "recall": 22.793074084587,
-            "precision": 8.661884472250687
+            "recall": 22.778881634970197,
+            "precision": 8.65649101990184
           },
-          "lift_recall_vs_naive": 14.59
+          "lift_recall_vs_naive": 14.58
         },
         "G2": {
           "id": "G2",
           "name": "仅当日热度",
           "n_feat": 5,
           "auc_lr": 0.5282,
-          "auc_xgb": 0.6055,
+          "auc_xgb": 0.6065,
           "ap_lr": 0.0873,
-          "ap_xgb": 0.1057,
+          "ap_xgb": 0.1055,
           "top20_xgb": {
-            "recall": 29.406755606017597,
-            "precision": 11.175233266814088
+            "recall": 29.26483110984956,
+            "precision": 11.121298743325603
           },
-          "lift_recall_vs_naive": 21.2
+          "lift_recall_vs_naive": 21.06
         },
         "G3": {
           "id": "G3",
           "name": "仅惯性趋势",
           "n_feat": 12,
           "auc_lr": 0.638,
-          "auc_xgb": 0.8085,
+          "auc_xgb": 0.8084,
           "ap_lr": 0.1237,
-          "ap_xgb": 0.2668,
+          "ap_xgb": 0.2657,
           "top20_xgb": {
-            "recall": 57.50780584728924,
-            "precision": 21.854268917534114
+            "recall": 56.9968776610843,
+            "precision": 21.660104632975568
           },
-          "lift_recall_vs_naive": 49.3
+          "lift_recall_vs_naive": 48.79
         },
         "G4": {
           "id": "G4",
           "name": "内容＋当日热度",
           "n_feat": 10,
           "auc_lr": 0.5066,
-          "auc_xgb": 0.6098,
+          "auc_xgb": 0.6097,
           "ap_lr": 0.0812,
-          "ap_xgb": 0.1082,
+          "ap_xgb": 0.1086,
           "top20_xgb": {
-            "recall": 29.804144195288107,
-            "precision": 11.326249932581845
+            "recall": 29.93187624183934,
+            "precision": 11.374791003721482
           },
-          "lift_recall_vs_naive": 21.6
+          "lift_recall_vs_naive": 21.73
         },
         "G5": {
           "id": "G5",
           "name": "内容＋惯性",
           "n_feat": 17,
           "auc_lr": 0.6054,
-          "auc_xgb": 0.808,
+          "auc_xgb": 0.809,
           "ap_lr": 0.1061,
-          "ap_xgb": 0.2669,
+          "ap_xgb": 0.2694,
           "top20_xgb": {
-            "recall": 57.649730343457286,
-            "precision": 21.908203441022597
+            "recall": 57.19557195571956,
+            "precision": 21.735612965859445
           },
-          "lift_recall_vs_naive": 49.45
+          "lift_recall_vs_naive": 48.99
         },
         "G6": {
           "id": "G6",
           "name": "内容＋惯性−roll7",
           "n_feat": 16,
           "auc_lr": 0.6004,
-          "auc_xgb": 0.7773,
+          "auc_xgb": 0.7769,
           "ap_lr": 0.1049,
-          "ap_xgb": 0.239,
+          "ap_xgb": 0.2373,
           "top20_xgb": {
-            "recall": 52.512063582174285,
-            "precision": 19.95577369073944
+            "recall": 52.852682372977576,
+            "precision": 20.085216547111806
           },
-          "lift_recall_vs_naive": 44.31
+          "lift_recall_vs_naive": 44.65
         },
         "G7": {
           "id": "G7",
@@ -431,26 +431,26 @@
           "auc_lr": 0.6935,
           "auc_xgb": 0.8814,
           "ap_lr": 0.1828,
-          "ap_xgb": 0.4569,
+          "ap_xgb": 0.4539,
           "top20_xgb": {
-            "recall": 72.48084019301731,
-            "precision": 27.54436114556928
+            "recall": 72.66534203803576,
+            "precision": 27.614476026104313
           },
-          "lift_recall_vs_naive": 64.28
+          "lift_recall_vs_naive": 64.46
         },
         "G8": {
           "id": "G8",
           "name": "全部−roll7",
           "n_feat": 21,
           "auc_lr": 0.6883,
-          "auc_xgb": 0.8554,
+          "auc_xgb": 0.8555,
           "ap_lr": 0.1788,
-          "ap_xgb": 0.4176,
+          "ap_xgb": 0.4174,
           "top20_xgb": {
-            "recall": 67.9960261141073,
-            "precision": 25.840030203333153
+            "recall": 68.25149020720977,
+            "precision": 25.93711234561243
           },
-          "lift_recall_vs_naive": 59.79
+          "lift_recall_vs_naive": 60.05
         }
       }
     }

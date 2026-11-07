@@ -9,21 +9,21 @@
       "pos_rate": 24.92,
       "auc": {
         "lr": 0.924,
-        "xgb": 0.9813,
+        "xgb": 0.9811,
         "naive": 0.9842
       },
       "ap": {
         "lr": 0.8895,
-        "xgb": 0.953,
+        "xgb": 0.9526,
         "naive": 0.9547
       },
       "global_topk": {
         "5": {
           "model": {
-            "recall": 20.01557632398754,
-            "precision": 99.78429680759275,
+            "recall": 20.019903080650746,
+            "precision": 99.80586712683348,
             "n_sel": 4636,
-            "hits": 4626
+            "hits": 4627
           },
           "naive": {
             "recall": 19.894427137417793,
@@ -31,15 +31,15 @@
             "n_sel": 4636,
             "hits": 4598
           },
-          "lift_recall": 0.12,
-          "lift_precision": 0.6
+          "lift_recall": 0.13,
+          "lift_precision": 0.63
         },
         "10": {
           "model": {
-            "recall": 39.89702319141571,
-            "precision": 99.4392321794457,
+            "recall": 39.8840429214261,
+            "precision": 99.40688018979834,
             "n_sel": 9273,
-            "hits": 9221
+            "hits": 9218
           },
           "naive": {
             "recall": 39.555209415022496,
@@ -47,15 +47,15 @@
             "n_sel": 9273,
             "hits": 9142
           },
-          "lift_recall": 0.34,
-          "lift_precision": 0.85
+          "lift_recall": 0.33,
+          "lift_precision": 0.82
         },
         "15": {
           "model": {
-            "recall": 59.27656628591208,
-            "precision": 98.49029475197699,
+            "recall": 59.293873312564905,
+            "precision": 98.51905104241553,
             "n_sel": 13910,
-            "hits": 13700
+            "hits": 13704
           },
           "naive": {
             "recall": 58.54101765316718,
@@ -63,65 +63,65 @@
             "n_sel": 13910,
             "hits": 13530
           },
-          "lift_recall": 0.74,
-          "lift_precision": 1.22
+          "lift_recall": 0.75,
+          "lift_precision": 1.25
         },
         "20": {
           "model": {
-            "recall": 76.24610591900311,
-            "precision": 95.01267051275138,
+            "recall": 76.28071997230876,
+            "precision": 95.05580417318164,
             "n_sel": 18547,
-            "hits": 17622
+            "hits": 17630
           },
           "naive": {
-            "recall": 76.39321564555209,
-            "precision": 95.19598856957998,
+            "recall": 76.38888888888889,
+            "precision": 95.1905968620262,
             "n_sel": 18547,
-            "hits": 17656
+            "hits": 17655
           },
-          "lift_recall": -0.15,
-          "lift_precision": -0.18
+          "lift_recall": -0.11,
+          "lift_precision": -0.13
         },
         "25": {
           "model": {
-            "recall": 87.68172377985462,
-            "precision": 87.41319070008196,
+            "recall": 87.59951540325372,
+            "precision": 87.33123409394815,
             "n_sel": 23183,
-            "hits": 20265
+            "hits": 20246
           },
           "naive": {
-            "recall": 89.23935617860852,
-            "precision": 88.96605271103826,
+            "recall": 89.25666320526133,
+            "precision": 88.98330673338222,
             "n_sel": 23183,
-            "hits": 20625
+            "hits": 20629
           },
-          "lift_recall": -1.56,
-          "lift_precision": -1.55
+          "lift_recall": -1.66,
+          "lift_precision": -1.65
         },
         "30": {
           "model": {
-            "recall": 94.20647282796816,
-            "precision": 78.26383896477354,
+            "recall": 94.076670128072,
+            "precision": 78.15600287562904,
             "n_sel": 27820,
-            "hits": 21773
+            "hits": 21743
           },
           "naive": {
-            "recall": 96.05832467982,
-            "precision": 79.80230050323507,
+            "recall": 96.0496711664936,
+            "precision": 79.79511143062545,
             "n_sel": 27820,
-            "hits": 22201
+            "hits": 22199
           },
-          "lift_recall": -1.85,
-          "lift_precision": -1.54
+          "lift_recall": -1.97,
+          "lift_precision": -1.64
         }
       },
       "perday_topk": {
         "5": {
           "model": {
-            "recall": 19.9852890273451,
-            "precision": 99.74087670049666,
+            "recall": 19.980962270681896,
+            "precision": 99.7192830922047,
             "n_sel": 4631,
-            "hits": 4619
+            "hits": 4618
           },
           "naive": {
             "recall": 19.842506057459328,
@@ -130,14 +130,14 @@
             "hits": 4586
           },
           "lift_recall": 0.14,
-          "lift_precision": 0.71
+          "lift_precision": 0.69
         },
         "10": {
           "model": {
-            "recall": 39.8840429214261,
-            "precision": 99.4605092792404,
+            "recall": 39.888369678089305,
+            "precision": 99.47129909365559,
             "n_sel": 9268,
-            "hits": 9218
+            "hits": 9219
           },
           "naive": {
             "recall": 39.555209415022496,
@@ -146,14 +146,14 @@
             "hits": 9142
           },
           "lift_recall": 0.33,
-          "lift_precision": 0.82
+          "lift_precision": 0.83
         },
         "15": {
           "model": {
-            "recall": 59.23762547594323,
-            "precision": 98.47514924836366,
+            "recall": 59.2159916926272,
+            "precision": 98.43918578724016,
             "n_sel": 13903,
-            "hits": 13691
+            "hits": 13686
           },
           "naive": {
             "recall": 58.70543440636899,
@@ -161,53 +161,53 @@
             "n_sel": 13903,
             "hits": 13568
           },
-          "lift_recall": 0.53,
-          "lift_precision": 0.88
+          "lift_recall": 0.51,
+          "lift_precision": 0.85
         },
         "20": {
           "model": {
-            "recall": 77.00761509172725,
-            "precision": 95.99266490480557,
+            "recall": 77.0508826583593,
+            "precision": 96.04659942829406,
             "n_sel": 18541,
-            "hits": 17798
+            "hits": 17808
           },
           "naive": {
-            "recall": 77.21529941156109,
-            "precision": 96.2515506175503,
+            "recall": 77.20664589823468,
+            "precision": 96.2407637128526,
             "n_sel": 18541,
-            "hits": 17846
+            "hits": 17844
           },
-          "lift_recall": -0.21,
-          "lift_precision": -0.26
+          "lift_recall": -0.16,
+          "lift_precision": -0.19
         },
         "25": {
           "model": {
-            "recall": 89.90567670474212,
-            "precision": 89.64966778842005,
+            "recall": 89.89702319141571,
+            "precision": 89.64103891621366,
             "n_sel": 23178,
-            "hits": 20779
+            "hits": 20777
           },
           "naive": {
-            "recall": 92.35894773277951,
-            "precision": 92.0959530589352,
+            "recall": 92.35462097611631,
+            "precision": 92.091638622832,
             "n_sel": 23178,
-            "hits": 21346
+            "hits": 21345
           },
-          "lift_recall": -2.45,
+          "lift_recall": -2.46,
           "lift_precision": -2.45
         },
         "30": {
           "model": {
-            "recall": 95.8030460366909,
-            "precision": 79.607391960883,
+            "recall": 95.78573901003807,
+            "precision": 79.5930107140289,
             "n_sel": 27814,
-            "hits": 22142
+            "hits": 22138
           },
           "naive": {
-            "recall": 97.99238490827275,
-            "precision": 81.42661968792694,
+            "recall": 97.97940463828314,
+            "precision": 81.41583375278637,
             "n_sel": 27814,
-            "hits": 22648
+            "hits": 22645
           },
           "lift_recall": -2.19,
           "lift_precision": -1.82
@@ -224,16 +224,16 @@
       },
       "ap": {
         "lr": 0.1828,
-        "xgb": 0.4569,
+        "xgb": 0.4539,
         "naive": 0.0606
       },
       "global_topk": {
         "5": {
           "model": {
-            "recall": 34.459267669599775,
-            "precision": 52.37273511647972,
+            "recall": 34.5444223673006,
+            "precision": 52.50215703192407,
             "n_sel": 4636,
-            "hits": 2428
+            "hits": 2434
           },
           "naive": {
             "recall": 0.8657394266250356,
@@ -241,15 +241,15 @@
             "n_sel": 4636,
             "hits": 61
           },
-          "lift_recall": 33.59,
-          "lift_precision": 51.06
+          "lift_recall": 33.68,
+          "lift_precision": 51.19
         },
         "10": {
           "model": {
-            "recall": 52.185637240987795,
-            "precision": 39.6527553111183,
+            "recall": 51.8024411013341,
+            "precision": 39.36158740429203,
             "n_sel": 9273,
-            "hits": 3677
+            "hits": 3650
           },
           "naive": {
             "recall": 2.6965654271927333,
@@ -257,15 +257,15 @@
             "n_sel": 9273,
             "hits": 190
           },
-          "lift_recall": 49.49,
-          "lift_precision": 37.6
+          "lift_recall": 49.11,
+          "lift_precision": 37.31
         },
         "15": {
           "model": {
-            "recall": 63.709906329832535,
-            "precision": 32.27174694464414,
+            "recall": 63.26994039171161,
+            "precision": 32.048885693745504,
             "n_sel": 13910,
-            "hits": 4489
+            "hits": 4458
           },
           "naive": {
             "recall": 5.322168606301448,
@@ -273,15 +273,15 @@
             "n_sel": 13910,
             "hits": 375
           },
-          "lift_recall": 58.39,
-          "lift_precision": 29.58
+          "lift_recall": 57.95,
+          "lift_precision": 29.35
         },
         "20": {
           "model": {
-            "recall": 72.4524552937837,
-            "precision": 27.524667062058555,
+            "recall": 72.62276468918535,
+            "precision": 27.58936755270394,
             "n_sel": 18547,
-            "hits": 5105
+            "hits": 5117
           },
           "naive": {
             "recall": 8.558047118932729,
@@ -289,15 +289,15 @@
             "n_sel": 18547,
             "hits": 603
           },
-          "lift_recall": 63.89,
-          "lift_precision": 24.27
+          "lift_recall": 64.06,
+          "lift_precision": 24.34
         },
         "25": {
           "model": {
-            "recall": 79.27902355946637,
-            "precision": 24.095242203338653,
+            "recall": 79.54868010218564,
+            "precision": 24.177198809472458,
             "n_sel": 23183,
-            "hits": 5586
+            "hits": 5605
           },
           "naive": {
             "recall": 12.20550667045132,
@@ -305,15 +305,15 @@
             "n_sel": 23183,
             "hits": 860
           },
-          "lift_recall": 67.07,
-          "lift_precision": 20.39
+          "lift_recall": 67.34,
+          "lift_precision": 20.47
         },
         "30": {
           "model": {
-            "recall": 84.77150156116946,
-            "precision": 21.470165348670022,
+            "recall": 84.9701958558047,
+            "precision": 21.520488856937455,
             "n_sel": 27820,
-            "hits": 5973
+            "hits": 5987
           },
           "naive": {
             "recall": 16.307124609707635,
@@ -321,17 +321,17 @@
             "n_sel": 27820,
             "hits": 1149
           },
-          "lift_recall": 68.46,
-          "lift_precision": 17.34
+          "lift_recall": 68.66,
+          "lift_precision": 17.39
         }
       },
       "perday_topk": {
         "5": {
           "model": {
-            "recall": 34.64376951461822,
-            "precision": 52.70999784063917,
+            "recall": 34.31734317343174,
+            "precision": 52.213344849924425,
             "n_sel": 4631,
-            "hits": 2441
+            "hits": 2418
           },
           "naive": {
             "recall": 0.8941243258586431,
@@ -339,15 +339,15 @@
             "n_sel": 4631,
             "hits": 63
           },
-          "lift_recall": 33.75,
-          "lift_precision": 51.35
+          "lift_recall": 33.42,
+          "lift_precision": 50.85
         },
         "10": {
           "model": {
-            "recall": 51.8592108998013,
-            "precision": 39.42598187311178,
+            "recall": 51.78824865171728,
+            "precision": 39.37203280103582,
             "n_sel": 9268,
-            "hits": 3654
+            "hits": 3649
           },
           "naive": {
             "recall": 2.7675276752767526,
@@ -355,15 +355,15 @@
             "n_sel": 9268,
             "hits": 195
           },
-          "lift_recall": 49.09,
-          "lift_precision": 37.32
+          "lift_recall": 49.02,
+          "lift_precision": 37.27
         },
         "15": {
           "model": {
-            "recall": 63.88021572523418,
-            "precision": 32.374307703373375,
+            "recall": 63.497019585580475,
+            "precision": 32.18010501330648,
             "n_sel": 13903,
-            "hits": 4501
+            "hits": 4474
           },
           "naive": {
             "recall": 5.109281862049389,
@@ -371,15 +371,15 @@
             "n_sel": 13903,
             "hits": 360
           },
-          "lift_recall": 58.77,
-          "lift_precision": 29.78
+          "lift_recall": 58.39,
+          "lift_precision": 29.59
         },
         "20": {
           "model": {
-            "recall": 72.48084019301731,
-            "precision": 27.54436114556928,
+            "recall": 72.66534203803576,
+            "precision": 27.614476026104313,
             "n_sel": 18541,
-            "hits": 5107
+            "hits": 5120
           },
           "naive": {
             "recall": 8.203235878512631,
@@ -387,15 +387,15 @@
             "n_sel": 18541,
             "hits": 578
           },
-          "lift_recall": 64.28,
-          "lift_precision": 24.43
+          "lift_recall": 64.46,
+          "lift_precision": 24.5
         },
         "25": {
           "model": {
-            "recall": 79.34998580755038,
-            "precision": 24.122012252998534,
+            "recall": 79.84672154413852,
+            "precision": 24.27301751661058,
             "n_sel": 23178,
-            "hits": 5591
+            "hits": 5626
           },
           "naive": {
             "recall": 11.95004257734885,
@@ -403,15 +403,15 @@
             "n_sel": 23178,
             "hits": 842
           },
-          "lift_recall": 67.4,
-          "lift_precision": 20.49
+          "lift_recall": 67.9,
+          "lift_precision": 20.64
         },
         "30": {
           "model": {
-            "recall": 85.01277320465512,
-            "precision": 21.53591716401812,
+            "recall": 85.08373545273913,
+            "precision": 21.553893722585748,
             "n_sel": 27814,
-            "hits": 5990
+            "hits": 5995
           },
           "naive": {
             "recall": 16.335509508941243,
@@ -419,8 +419,8 @@
             "n_sel": 27814,
             "hits": 1151
           },
-          "lift_recall": 68.68,
-          "lift_precision": 17.4
+          "lift_recall": 68.75,
+          "lift_precision": 17.42
         }
       }
     }

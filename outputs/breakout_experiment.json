@@ -1,41 +1,46 @@
 {
   "绝对高潜(原口径)": {
-    "pos_rate": 25.24,
-    "auc_model": 0.983,
-    "auc_naive": 0.9848,
-    "top20_model": 75.99,
-    "top20_naive": 75.73,
-    "top5_model": 19.78,
-    "top5_naive": 19.64,
-    "top10_model": 39.44,
-    "top10_naive": 39.06,
-    "top30_model": 94.34,
-    "top30_naive": 96.08
+    "pos_rate": 24.92,
+    "auc_model": 0.9811,
+    "auc_naive": 0.9842,
+    "top20_model": 76.28,
+    "top20_naive": 76.39,
+    "top5_model": 20.02,
+    "top5_naive": 19.89,
+    "top10_model": 39.88,
+    "top10_naive": 39.56,
+    "top30_model": 94.08,
+    "top30_naive": 96.05
   },
   "相对跃升(breakout)": {
     "pos_rate": 7.6,
-    "auc_model": 0.8822,
+    "auc_model": 0.8814,
     "auc_naive": 0.4265,
-    "top20_model": 72.82,
+    "top20_model": 72.62,
     "top20_naive": 8.56,
-    "top5_model": 34.43,
+    "top5_model": 34.54,
     "top5_naive": 0.87,
-    "top10_model": 52.02,
+    "top10_model": 51.8,
     "top10_naive": 2.7,
     "top30_model": 84.97,
     "top30_naive": 16.31
   },
   "跃升+去当日热度": {
     "pos_rate": 7.6,
-    "auc_model": 0.8087,
+    "auc_model": 0.809,
     "auc_naive": 0.4265,
-    "top20_model": 57.58,
+    "top20_model": 57.0,
     "top20_naive": 8.56,
-    "top5_model": 23.23,
+    "top5_model": 23.32,
     "top5_naive": 0.87,
-    "top10_model": 36.84,
+    "top10_model": 37.2,
     "top10_naive": 2.7,
-    "top30_model": 71.6,
+    "top30_model": 71.27,
     "top30_naive": 16.31
+  },
+  "方向检验": {
+    "按 roll7 排序（分母越大越难跃升）": 0.3381,
+    "按 1/roll7 排序（越冷越优先）": 0.6619,
+    "按 当日点赞/roll7 归一化动量排序": 0.7042
   }
 }

@@ -5,82 +5,75 @@
   "test_days": 14,
   "pos_rate_train": 23.7,
   "pos_rate_test": 24.92,
-  "auc_lr": 0.9458,
-  "auc_xgb": 0.9825,
-  "ap_lr": 0.9097,
-  "ap_xgb": 0.9579,
-  "recall_lr": 0.7005,
-  "precision_lr": 0.9408,
-  "recall_xgb": 0.7792,
-  "precision_xgb": 0.9558,
+  "auc_lr": 0.924,
+  "auc_xgb": 0.9811,
+  "ap_lr": 0.8895,
+  "ap_xgb": 0.9526,
   "topk_recall": {
-    "5.0": 20.04,
-    "10.0": 39.97,
-    "15.0": 59.53,
-    "20.0": 77.02,
-    "25.0": 88.87,
-    "30.0": 94.5
-  },
-  "topk_recall_lr": {
-    "5.0": 19.9,
-    "10.0": 39.55,
-    "15.0": 58.1,
-    "20.0": 74.31,
-    "25.0": 84.63,
-    "30.0": 89.49
+    "5.0": 20.02,
+    "10.0": 39.88,
+    "15.0": 59.29,
+    "20.0": 76.28,
+    "25.0": 87.6,
+    "30.0": 94.08
   },
   "baseline_random_top20": 20.0,
   "split_day": 20200821,
   "max_day": 20200904,
   "features": 22,
+  "split_on": "d",
+  "gap_max": null,
+  "dropna": true,
+  "seed": 42,
+  "n_jobs": 4,
   "importance": [
     {
       "feat": "like_user_num",
-      "gain": 0.7305
+      "gain": 0.6288
     },
     {
       "feat": "lag1_like",
-      "gain": 0.0869
-    },
-    {
-      "feat": "up_type_idx",
-      "gain": 0.0306
-    },
-    {
-      "feat": "n_prior_days",
-      "gain": 0.0298
+      "gain": 0.2097
     },
     {
       "feat": "gap_days",
-      "gain": 0.0223
-    },
-    {
-      "feat": "roll7_like",
-      "gain": 0.0115
+      "gain": 0.0284
     },
     {
       "feat": "play_user_num",
-      "gain": 0.0103
+      "gain": 0.0161
     },
     {
-      "feat": "lag3_like",
-      "gain": 0.0075
+      "feat": "n_prior_days",
+      "gain": 0.0137
     },
     {
-      "feat": "lag1_playuser",
-      "gain": 0.0066
+      "feat": "roll7_like",
+      "gain": 0.0108
     },
     {
       "feat": "like_rate",
-      "gain": 0.0061
+      "gain": 0.0083
     },
     {
-      "feat": "lag2_like",
-      "gain": 0.0059
+      "feat": "up_type_idx",
+      "gain": 0.0079
     },
     {
-      "feat": "roll7_playuser",
-      "gain": 0.0055
+      "feat": "lag3_like",
+      "gain": 0.0072
+    },
+    {
+      "feat": "dur_log",
+      "gain": 0.0066
+    },
+    {
+      "feat": "tag_idx",
+      "gain": 0.0063
+    },
+    {
+      "feat": "lag1_playuser",
+      "gain": 0.006
     }
   ]
 }

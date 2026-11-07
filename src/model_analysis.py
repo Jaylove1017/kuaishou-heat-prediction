@@ -78,6 +78,10 @@ def main():
     else:
         df = fetch_video_daily()
     df = F.normalize(df)
+    # SQL 通路已在 WHERE 里过滤过，这里再调一次是幂等的；
+    # CSV 通路此前漏了这一步，导致同一个「模型分析」在两个数据源上有 3 万行样本差异
+    # （302,019 vs 279,158），AUC 也因此差 0.002。统一到同一处过滤。
+    df = F.filter_active(df)
     print(f"    活跃视频日 {len(df):,} 行, {df['video_id'].nunique():,} 视频, {df['d'].nunique()} 天")
 
     print("[2] 构建样本/特征 ...")

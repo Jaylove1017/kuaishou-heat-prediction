@@ -1,0 +1,129 @@
+{
+  "split_day": 20200821,
+  "test_rows": 92735,
+  "test_days": 14,
+  "play_coverage_pct": 20.3,
+  "coverage_note": "全样本评估，未覆盖行 play 特征为 NaN 交给 XGBoost；不取交集以避免热门视频选择偏差（交集内正样本率 58%）",
+  "play_features": [
+    "pl_log_n",
+    "pl_uniq_ratio",
+    "pl_wr_p50",
+    "pl_wr_p90",
+    "pl_fast_rate",
+    "pl_done_rate",
+    "pl_rep_rate"
+  ],
+  "ratio_features": [
+    "accel_play",
+    "accel_like",
+    "ctr_like"
+  ],
+  "scenarios": {
+    "abs": {
+      "name": "绝对热度（次日进前25%）",
+      "pos_rate": 24.92,
+      "naive_col": "like_user_num",
+      "naive_auc": 0.9842,
+      "naive_top20_recall": 77.21,
+      "groups": {
+        "G0": {
+          "name": "22 维基线",
+          "n_feat": 22,
+          "auc": 0.9811,
+          "auc_on_covered_subset": 0.9558,
+          "top20_recall": 77.05,
+          "top20_precision": 96.05,
+          "lift_vs_naive": -0.16,
+          "delta_auc_vs_G0": 0.0,
+          "delta_recall_vs_G0": 0.0
+        },
+        "G1": {
+          "name": "22 维 + 播放分布",
+          "n_feat": 29,
+          "auc": 0.975,
+          "auc_on_covered_subset": 0.9472,
+          "top20_recall": 76.13,
+          "top20_precision": 94.9,
+          "lift_vs_naive": -1.07,
+          "delta_auc_vs_G0": -0.0061,
+          "delta_recall_vs_G0": -0.92
+        },
+        "G2": {
+          "name": "22 维 + 显式比率",
+          "n_feat": 25,
+          "auc": 0.9805,
+          "auc_on_covered_subset": 0.9552,
+          "top20_recall": 77.04,
+          "top20_precision": 96.04,
+          "lift_vs_naive": -0.16,
+          "delta_auc_vs_G0": -0.0005,
+          "delta_recall_vs_G0": -0.01
+        },
+        "G3": {
+          "name": "全部",
+          "n_feat": 32,
+          "auc": 0.9758,
+          "auc_on_covered_subset": 0.9487,
+          "top20_recall": 76.25,
+          "top20_precision": 95.04,
+          "lift_vs_naive": -0.96,
+          "delta_auc_vs_G0": -0.0053,
+          "delta_recall_vs_G0": -0.8
+        }
+      }
+    },
+    "break": {
+      "name": "相对跃升（≥自身7日均值2倍）",
+      "pos_rate": 7.6,
+      "naive_col": "roll7_like",
+      "naive_auc": 0.4265,
+      "naive_top20_recall": 8.2,
+      "groups": {
+        "G0": {
+          "name": "22 维基线",
+          "n_feat": 22,
+          "auc": 0.8814,
+          "auc_on_covered_subset": 0.9016,
+          "top20_recall": 72.67,
+          "top20_precision": 27.61,
+          "lift_vs_naive": 64.46,
+          "delta_auc_vs_G0": 0.0,
+          "delta_recall_vs_G0": 0.0
+        },
+        "G1": {
+          "name": "22 维 + 播放分布",
+          "n_feat": 29,
+          "auc": 0.8818,
+          "auc_on_covered_subset": 0.8976,
+          "top20_recall": 73.05,
+          "top20_precision": 27.76,
+          "lift_vs_naive": 64.85,
+          "delta_auc_vs_G0": 0.0004,
+          "delta_recall_vs_G0": 0.38
+        },
+        "G2": {
+          "name": "22 维 + 显式比率",
+          "n_feat": 25,
+          "auc": 0.8832,
+          "auc_on_covered_subset": 0.9034,
+          "top20_recall": 73.09,
+          "top20_precision": 27.78,
+          "lift_vs_naive": 64.89,
+          "delta_auc_vs_G0": 0.0018,
+          "delta_recall_vs_G0": 0.42
+        },
+        "G3": {
+          "name": "全部",
+          "n_feat": 32,
+          "auc": 0.8836,
+          "auc_on_covered_subset": 0.9029,
+          "top20_recall": 73.26,
+          "top20_precision": 27.84,
+          "lift_vs_naive": 65.06,
+          "delta_auc_vs_G0": 0.0022,
+          "delta_recall_vs_G0": 0.59
+        }
+      }
+    }
+  }
+}

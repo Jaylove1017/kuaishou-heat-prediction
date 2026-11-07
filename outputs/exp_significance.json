@@ -1,0 +1,121 @@
+{
+  "split_day": 20200821,
+  "test_rows": 92735,
+  "test_days": 14,
+  "iters": 1000,
+  "bootstrap_unit": "day（per-day 口径下天是独立单元）",
+  "scenarios": {
+    "abs": {
+      "name": "绝对热度（次日进前25%）",
+      "pos_rate": 24.92,
+      "naive_col": "like_user_num",
+      "per_seed": [
+        {
+          "seed": 42,
+          "auc_model": 0.9811,
+          "auc_naive": 0.9842,
+          "diff": -0.0031
+        },
+        {
+          "seed": 1,
+          "auc_model": 0.9813,
+          "auc_naive": 0.9842,
+          "diff": -0.0029
+        },
+        {
+          "seed": 2,
+          "auc_model": 0.9811,
+          "auc_naive": 0.9842,
+          "diff": -0.0031
+        },
+        {
+          "seed": 3,
+          "auc_model": 0.9806,
+          "auc_naive": 0.9842,
+          "diff": -0.0036
+        },
+        {
+          "seed": 4,
+          "auc_model": 0.9812,
+          "auc_naive": 0.9842,
+          "diff": -0.003
+        }
+      ],
+      "seed_mean": -0.0031,
+      "seed_std": 0.0003,
+      "bootstrap_auc": {
+        "name": "AUC(模型-基线)",
+        "mean": -0.0031,
+        "ci_low": -0.0063,
+        "ci_high": -0.0002,
+        "crosses_zero": false,
+        "n_boot": 1000
+      },
+      "bootstrap_top20_recall": {
+        "name": "top20%召回差(pp，模型-基线)",
+        "mean": -0.1485,
+        "ci_low": -0.6915,
+        "ci_high": 0.3353,
+        "crosses_zero": true,
+        "n_boot": 1000
+      },
+      "conclusion": "基线显著更好"
+    },
+    "break": {
+      "name": "相对跃升（≥自身7日均值2倍）",
+      "pos_rate": 7.6,
+      "naive_col": "roll7_like",
+      "per_seed": [
+        {
+          "seed": 42,
+          "auc_model": 0.8814,
+          "auc_naive": 0.4265,
+          "diff": 0.4549
+        },
+        {
+          "seed": 1,
+          "auc_model": 0.8818,
+          "auc_naive": 0.4265,
+          "diff": 0.4553
+        },
+        {
+          "seed": 2,
+          "auc_model": 0.8822,
+          "auc_naive": 0.4265,
+          "diff": 0.4557
+        },
+        {
+          "seed": 3,
+          "auc_model": 0.8816,
+          "auc_naive": 0.4265,
+          "diff": 0.4551
+        },
+        {
+          "seed": 4,
+          "auc_model": 0.8819,
+          "auc_naive": 0.4265,
+          "diff": 0.4554
+        }
+      ],
+      "seed_mean": 0.4553,
+      "seed_std": 0.0003,
+      "bootstrap_auc": {
+        "name": "AUC(模型-基线)",
+        "mean": 0.455,
+        "ci_low": 0.442,
+        "ci_high": 0.4674,
+        "crosses_zero": false,
+        "n_boot": 1000
+      },
+      "bootstrap_top20_recall": {
+        "name": "top20%召回差(pp，模型-基线)",
+        "mean": 64.4579,
+        "ci_low": 62.382,
+        "ci_high": 66.5129,
+        "crosses_zero": false,
+        "n_boot": 1000
+      },
+      "conclusion": "模型显著更好"
+    }
+  }
+}

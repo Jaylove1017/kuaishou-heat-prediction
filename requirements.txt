@@ -2,6 +2,12 @@
 # 一律加版本上限：numpy / pandas / xgboost 的大版本升级会改变 dtype、
 # groupby 默认行为和树的分裂策略，只有上限才能保证「半年后复跑得到同一批数字」。
 # 原文件全是 >= 无上限，且 seaborn / scipy 实际未被任何脚本 import，已移除。
+#
+# ⚠ 当前 outputs/*.json 的生成环境（复现基线，改动前请先记下你自己的版本）：
+#     Python 3.13.14 · xgboost 3.4.1 · scikit-learn 1.9.1
+#     pandas 3.1.0 · numpy 2.5.4 · matplotlib 3.11.2
+# 区间内的次版本升级仍会带来 ±0.0002 量级的 AUC 漂移（实测），
+# 因此跨版本重跑后必须同步更新 README 与 outputs/README.md 里的数字。
 pandas>=2.0,<4
 numpy>=1.24,<3
 matplotlib>=3.7,<5

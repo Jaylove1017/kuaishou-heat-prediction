@@ -112,10 +112,27 @@ def test_equivalent_to_legacy():
 
     assert len(new) == len(old), f"样本数不一致 {len(new)} vs {len(old)}"
     cols = F.FEATURES + ["label_abs", "label_break", "next_d", "next_like"]
+    # 新实现在末尾按 (d, video_id) 归一化行顺序（XGBoost 的 hist 对行顺序敏感，
+    # 见 src/features.py 的注释），因此比对前把旧实现也排一次序。
+    # 排序只改顺序、不改数值，所以这一列都不该有差异。
+    old = old.sort_values(["d", "video_id"]).reset_index(drop=True)
     pd.testing.assert_frame_equal(
         new[cols].reset_index(drop=True), old[cols].reset_index(drop=True),
         check_dtype=False, obj="features")
     print(f"[ok] 等价性通过：{len(new)} 行 × {len(cols)} 列逐位一致")
+
+
+def test_output_row_order_is_canonical():
+    """build_dataset 必须返回按 (d, video_id) 排好序的样本。
+
+    这条不是洁癖：XGBoost 的 hist 算法对训练行顺序敏感（实测同数据不同行序
+    AUC 差 0.0002），若某个脚本自己排序、另一个不排，就会出现
+    「同一件事两个数字」。见 README §6。
+    """
+    ds = F.build_dataset(F.filter_active(make_frame()))
+    key = list(zip(ds["d"].values, ds["video_id"].values))
+    assert key == sorted(key), "build_dataset 的返回行顺序不是 (d, video_id) 升序"
+    assert ds.index.tolist() == list(range(len(ds))), "返回的 index 应该是干净的 RangeIndex"
 
 
 # ---------------------------------------------------------------- 防泄漏

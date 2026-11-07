@@ -22,7 +22,9 @@
   roll7_like 在这里既是标签分母、又是特征之一，这层重叠的量化见
   experiments/ablation.py 的 G7 → G8。
 * `next_d` 是「该视频下一次出现在 video_daily 的日期」，**不一定是 d+1**。
-  需要严格次日口径时传 gap_max=1。
+  需要严格次日口径时传 gap_max=1（按 `lead_days = next_d - d` 过滤）。
+  注意 `gap_days`（向后，距上次观测）与 `lead_days`（向前，距标签日）是两个量，
+  前者是特征、后者决定标签窗口长度，不要混用。
 
 兼容性说明
 ----------
@@ -94,7 +96,7 @@ def build_dataset(df, *, dropna=True, gap_max=None,
     参数
     ----
     dropna     : True（默认，历史口径）= 按 FEATURES 全集 dropna；False = 保留缺失值交给 XGBoost
-    gap_max    : None（默认，历史口径）= 不限间隔；1 = 严格次日（next_d == d+1）
+    gap_max    : None（默认，历史口径）= 不限间隔；1 = 严格次日（next_d == d+1，按 lead_days 过滤）
     break_mult : 跃升阈值倍数，默认 2.0（可做 1.5 / 3.0 敏感性）
     top_q      : 标签 A 的分位点，默认 0.75
     with_break : 是否构造跃升标签
@@ -132,11 +134,15 @@ def build_dataset(df, *, dropna=True, gap_max=None,
     df = df[df["next_d"].notna()].copy()
     df["next_d"] = df["next_d"].astype(int)
     df["next_date"] = pd.to_datetime(df["next_d"].astype(str), format="%Y%m%d")
+    # **向前**间隔：从今天到标签日有多远。这才是「次日」这个词对应的量。
+    # 注意不要和上面的 gap_days 混用：gap_days 是「距离上一次观测多久」（向后），
+    # 它是合法特征（视频是否在持续更新），但不能用来判断标签窗口长度。
+    df["lead_days"] = df["next_d"] - df["d"]
 
     # 严格次日口径：只保留 next_d == d+1 的样本（在算标签之前过滤，
     # 这样标签分位数也只在严格次日样本内部取，口径才自洽）
     if gap_max is not None:
-        df = df[df["gap_days"] <= gap_max].copy()
+        df = df[df["lead_days"] <= gap_max].copy()
         if df.empty:
             raise ValueError(f"gap_max={gap_max} 过滤后没有样本，请检查数据")
 
@@ -153,7 +159,11 @@ def build_dataset(df, *, dropna=True, gap_max=None,
     if dropna:
         df = df.dropna(subset=FEATURES).copy()
 
-    return df
+    # 行顺序统一在这里定一次：XGBoost 的 hist 算法对行顺序有 1e-4 级敏感
+    # （实测同一份数据、同一组超参，仅改行顺序 AUC 就从 0.980863 变到 0.981078）。
+    # 历史上 eval_upgrade 排了序、baseline_vs_model 没排，两个脚本因此给出
+    # 0.9811 / 0.9809 的"同一件事"两个数字。统一到此处，任何消费方拿到的顺序都相同。
+    return df.sort_values(["d", "video_id"]).reset_index(drop=True)
 
 
 def split(ds, tail_days=SPLIT_TAIL_DAYS, on="d"):

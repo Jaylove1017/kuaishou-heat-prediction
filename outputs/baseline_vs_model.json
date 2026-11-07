@@ -1,4 +1,5 @@
 {
+  "eval_mode": "global（旧口径，勿与 eval_upgrade 的 per-day 混引）",
   "test_rows": 92735,
   "split_day": 20200821,
   "auc_model": 0.9811,
@@ -11,45 +12,53 @@
       "lift": 0.13
     },
     "0.1": {
-      "model": 39.9,
+      "model": 39.88,
       "naive": 39.56,
-      "lift": 0.35
+      "lift": 0.33
     },
     "0.15": {
       "model": 59.29,
       "naive": 58.54,
-      "lift": 0.74
+      "lift": 0.75
     },
     "0.2": {
-      "model": 76.17,
+      "model": 76.28,
       "naive": 76.39,
-      "lift": -0.22
+      "lift": -0.11
     },
     "0.25": {
-      "model": 87.58,
-      "naive": 89.24,
-      "lift": -1.67
+      "model": 87.6,
+      "naive": 89.26,
+      "lift": -1.66
     },
     "0.3": {
-      "model": 94.2,
+      "model": 94.08,
       "naive": 96.05,
-      "lift": -1.86
+      "lift": -1.97
     }
   },
   "by_history": {
+    "首次活跃(0天)": {
+      "n": 0,
+      "note": "当前口径下为空：lag1-3 缺失，被 dropna 删除"
+    },
+    "1-2天": {
+      "n": 0,
+      "note": "当前口径下为空：lag1-3 缺失，被 dropna 删除"
+    },
     "3-6天": {
       "n": 5220,
       "pos": 30.63,
-      "model": 64.35,
+      "model": 64.29,
       "naive": 63.48,
-      "lift": 0.88
+      "lift": 0.81
     },
     "7天以上": {
       "n": 87515,
       "pos": 24.58,
-      "model": 76.85,
+      "model": 76.92,
       "naive": 77.22,
-      "lift": -0.38
+      "lift": -0.3
     }
   }
 }
