@@ -1,0 +1,26 @@
+# 只起一个 MySQL，把「本地装 MySQL 并改到 3307 端口」这一步去掉。
+#   docker compose up -d
+#   python run_all.py
+#
+# --local-infile=1 是 LOAD DATA LOCAL INFILE 的必要参数；不传会报
+#   "The used command is not allowed with this MySQL version"。
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: kuairec-mysql
+    ports:
+      - "3307:3306"          # 与 src/load_data.py 的默认 MYSQL_PORT 一致
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: kuairec
+      TZ: Asia/Shanghai
+    command:
+      - --local-infile=1
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      interval: 5s
+      retries: 20

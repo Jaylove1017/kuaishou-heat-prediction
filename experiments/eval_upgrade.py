@@ -12,8 +12,10 @@
   charts/exp_pr_breakout.png
 
 与既有脚本的关系：
-  - 特征构造 / 样本切分 / 标签定义 与 experiments/baseline_vs_model.py 完全一致
+  - 特征构造 / 样本切分 / 标签定义 统一 import 自 src/features.py，
+    不再各存一份副本（五个副本已漂移成两条数据通路）
   - 唯一改动是评估函数（新增 per-day + precision），因此结果可与旧口径直接对照
+  - 本脚本的 exp_eval_upgrade.json 是 README 全部 top-k 数字的唯一来源
 """
 import sys
 import os
@@ -25,13 +27,15 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-sys.stdout.reconfigure(encoding="utf-8")
-plt.rcParams["font.sans-serif"] = ["Microsoft YaHei", "SimHei"]
-plt.rcParams["axes.unicode_minus"] = False
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src import features as F
 
-PROJ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SPLIT_TAIL_DAYS = 14
-TOP_Q = 0.75
+sys.stdout.reconfigure(encoding="utf-8")
+F.setup_style()
+
+PROJ = F.PROJ
+SPLIT_TAIL_DAYS = F.SPLIT_TAIL_DAYS
+TOP_Q = F.TOP_Q
 OUT = os.path.join(PROJ, "outputs")
 CH = os.path.join(PROJ, "charts")
 os.makedirs(OUT, exist_ok=True)
@@ -39,91 +43,27 @@ os.makedirs(CH, exist_ok=True)
 
 # ---------------------------------------------------------------- 数据与特征
 print("[1] 读取 CSV 并构造特征 ...")
-df = pd.read_csv(os.path.join(PROJ, "data", "clean", "video_daily.csv"), low_memory=False)
-df = df.rename(columns={"date": "d"})
-df = df[(df["play_cnt"] > 0) & (df["d"] >= 20200705)].copy()
-df["date"] = pd.to_datetime(df["d"].astype(str), format="%Y%m%d")
-df["dur_log"] = np.log1p(df["video_duration_ms"].fillna(0) / 1000.0)
-df["is_ad"] = (df["video_type"] == "AD").astype(int)
-df["up_type_idx"] = df["upload_type"].fillna("UNKNOWN").astype("category").cat.codes
-df["tag_idx"] = df["video_tag_name"].fillna("_NA_").astype("category").cat.codes
-df["dow"] = df["date"].dt.weekday
-df["like_rate"] = (df["like_user_num"] / df["play_user_num"].replace(0, np.nan)).fillna(0)
-df["complete_rate"] = (df["complete_play_cnt"] / df["play_cnt"].replace(0, np.nan)).fillna(0)
-
-g = df.sort_values("d").groupby("video_id")
-for lag in (1, 2, 3):
-    df[f"lag{lag}_like"] = g["like_user_num"].shift(lag)
-    df[f"lag{lag}_playuser"] = g["play_user_num"].shift(lag)
-df["lag1_likerate"] = g["like_rate"].shift(1)
-df["roll7_like"] = g["like_user_num"].transform(lambda s: s.shift(1).rolling(7, min_periods=1).mean())
-df["roll7_playuser"] = g["play_user_num"].transform(lambda s: s.shift(1).rolling(7, min_periods=1).mean())
-df["roll7_complete"] = g["complete_play_cnt"].transform(lambda s: s.shift(1).rolling(7, min_periods=1).mean())
-df["n_prior_days"] = g.cumcount()
-df["gap_days"] = g["d"].diff().fillna(99)
-
-df["next_d"] = g["d"].shift(-1)
-df["next_like"] = g["like_user_num"].shift(-1)
-df = df[df["next_d"].notna()].copy()
-df["next_d"] = df["next_d"].astype(int)
-
-# 标签 A：次日点赞进入当日前 25%
-day_q = df.groupby("next_d")["next_like"].transform(lambda s: s.quantile(TOP_Q))
-df["label_abs"] = (df["next_like"] >= day_q).astype(int)
-# 标签 B：相对自身近 7 日均值的跃升
-base7 = df["roll7_like"].replace(0, np.nan)
-df["label_break"] = ((df["next_like"] >= 2 * base7) & (df["next_like"] > 0)).astype(int)
-df["label_break"] = df["label_break"].where(base7.notna(), 0).astype(int)
-
-FEATURES = ["dur_log", "is_ad", "up_type_idx", "tag_idx", "dow",
-            "play_user_num", "like_user_num", "complete_play_cnt", "like_rate", "complete_rate",
-            "lag1_like", "lag2_like", "lag3_like", "lag1_playuser", "lag2_playuser", "lag3_playuser",
-            "lag1_likerate", "roll7_like", "roll7_playuser", "roll7_complete", "n_prior_days", "gap_days"]
-ds = df.dropna(subset=FEATURES).copy()
+df = F.filter_active(F.load_daily_csv())
+ds = F.build_dataset(df)
 ds = ds.sort_values(["d", "video_id"]).reset_index(drop=True)
+FEATURES = F.FEATURES
 
-day_max = ds["d"].max()
-split_d = int((pd.to_datetime(str(day_max), format="%Y%m%d")
-               - pd.Timedelta(days=SPLIT_TAIL_DAYS)).strftime("%Y%m%d"))
-tr, te = ds[ds["d"] <= split_d], ds[ds["d"] > split_d]
+tr, te, split_d = F.split(ds)
 print(f"    样本 {len(ds):,}  train {len(tr):,}  test {len(te):,}  split={split_d}")
 print(f"    测试集天数 {te['d'].nunique()}，每日样本 "
       f"min={te.groupby('d').size().min()} / max={te.groupby('d').size().max()}")
 
 
 # ---------------------------------------------------------------- 评估函数
-def eval_global(scores, y, k):
-    """全局排序：把全部测试样本混在一起取 top-k%（原口径）"""
-    n = max(int(len(y) * k), 1)
-    idx = np.argsort(-np.asarray(scores, dtype=float))[:n]
-    hits = int(y[idx].sum())
-    return dict(recall=hits / max(int(y.sum()), 1) * 100,
-                precision=hits / n * 100, n_sel=n, hits=hits)
-
-
-def eval_per_day(scores, y, days, k):
-    """按天分别圈选：每天取当天样本的 top-k%，再汇总（业务正确口径）"""
-    hits = 0
-    n_sel = 0
-    for d in np.unique(days):
-        m = days == d
-        s = np.asarray(scores, dtype=float)[m]
-        yy = np.asarray(y)[m]
-        n = max(int(m.sum() * k), 1)
-        idx = np.argsort(-s)[:n]
-        hits += int(yy[idx].sum())
-        n_sel += n
-    return dict(recall=hits / max(int(np.sum(y)), 1) * 100,
-                precision=hits / max(n_sel, 1) * 100, n_sel=n_sel, hits=hits)
+# 实现在 src/features.py（与 ablation.py / significance.py 共用同一份），
+# 避免「每个脚本各写一遍 top-k」然后再也说不清哪两个数字可比。
+eval_global = F.eval_global
+eval_per_day = F.eval_per_day
 
 
 # ---------------------------------------------------------------- 训练
 print("[2] 训练模型 ...")
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import roc_auc_score, average_precision_score, precision_recall_curve
-import xgboost as xgb
 
 Xtr, Xte = tr[FEATURES], te[FEATURES]
 days_te = te["d"].values
@@ -140,14 +80,11 @@ for sc in SCENARIOS:
     yte = te[sc["label"]].values
     print(f"\n[3] 口径：{sc['name']}  正样本率 test={yte.mean()*100:.2f}%")
 
-    lr = make_pipeline(StandardScaler(),
-                       LogisticRegression(max_iter=3000, C=0.5, class_weight="balanced"))
+    lr = F.make_lr()
     lr.fit(Xtr, ytr)
     p_lr = lr.predict_proba(Xte)[:, 1]
 
-    xm = xgb.XGBClassifier(n_estimators=500, learning_rate=0.06, max_depth=6,
-                           subsample=0.9, colsample_bytree=0.9, eval_metric="auc",
-                           tree_method="hist", n_jobs=4, random_state=42)
+    xm = F.make_xgb()
     xm.fit(Xtr, ytr)
     p_xgb = xm.predict_proba(Xte)[:, 1]
 

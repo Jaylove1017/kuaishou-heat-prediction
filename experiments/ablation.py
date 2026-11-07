@@ -54,14 +54,16 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-sys.stdout.reconfigure(encoding="utf-8")
-plt.rcParams["font.sans-serif"] = ["Microsoft YaHei", "SimHei"]
-plt.rcParams["axes.unicode_minus"] = False
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src import features as F
 
-PROJ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SPLIT_TAIL_DAYS = 14
-TOP_Q = 0.75
-SEED = 42
+sys.stdout.reconfigure(encoding="utf-8")
+F.setup_style()
+
+PROJ = F.PROJ
+SPLIT_TAIL_DAYS = F.SPLIT_TAIL_DAYS
+TOP_Q = F.TOP_Q
+SEED = F.SEED
 OUT = os.path.join(PROJ, "outputs")
 CH = os.path.join(PROJ, "charts")
 os.makedirs(OUT, exist_ok=True)
@@ -69,49 +71,15 @@ os.makedirs(CH, exist_ok=True)
 
 # ---------------------------------------------------------------- 数据与特征
 print("[1] 读取 CSV 并构造特征 ...")
-df = pd.read_csv(os.path.join(PROJ, "data", "clean", "video_daily.csv"), low_memory=False)
-df = df.rename(columns={"date": "d"})
-df = df[(df["play_cnt"] > 0) & (df["d"] >= 20200705)].copy()
-df["date"] = pd.to_datetime(df["d"].astype(str), format="%Y%m%d")
-df["dur_log"] = np.log1p(df["video_duration_ms"].fillna(0) / 1000.0)
-df["is_ad"] = (df["video_type"] == "AD").astype(int)
-df["up_type_idx"] = df["upload_type"].fillna("UNKNOWN").astype("category").cat.codes
-df["tag_idx"] = df["video_tag_name"].fillna("_NA_").astype("category").cat.codes
-df["dow"] = df["date"].dt.weekday
-df["like_rate"] = (df["like_user_num"] / df["play_user_num"].replace(0, np.nan)).fillna(0)
-df["complete_rate"] = (df["complete_play_cnt"] / df["play_cnt"].replace(0, np.nan)).fillna(0)
-
-g = df.sort_values("d").groupby("video_id")
-for lag in (1, 2, 3):
-    df[f"lag{lag}_like"] = g["like_user_num"].shift(lag)
-    df[f"lag{lag}_playuser"] = g["play_user_num"].shift(lag)
-df["lag1_likerate"] = g["like_rate"].shift(1)
-df["roll7_like"] = g["like_user_num"].transform(lambda s: s.shift(1).rolling(7, min_periods=1).mean())
-df["roll7_playuser"] = g["play_user_num"].transform(lambda s: s.shift(1).rolling(7, min_periods=1).mean())
-df["roll7_complete"] = g["complete_play_cnt"].transform(lambda s: s.shift(1).rolling(7, min_periods=1).mean())
-df["n_prior_days"] = g.cumcount()
-df["gap_days"] = g["d"].diff().fillna(99)
-
-df["next_d"] = g["d"].shift(-1)
-df["next_like"] = g["like_user_num"].shift(-1)
-df = df[df["next_d"].notna()].copy()
-df["next_d"] = df["next_d"].astype(int)
-
-# 标签 A：次日点赞进入当日前 25%
-day_q = df.groupby("next_d")["next_like"].transform(lambda s: s.quantile(TOP_Q))
-df["label_abs"] = (df["next_like"] >= day_q).astype(int)
-# 标签 B：相对自身近 7 日均值的跃升
-base7 = df["roll7_like"].replace(0, np.nan)
-df["label_break"] = ((df["next_like"] >= 2 * base7) & (df["next_like"] > 0)).astype(int)
-df["label_break"] = df["label_break"].where(base7.notna(), 0).astype(int)
+df = F.filter_active(F.load_daily_csv())
+# 统一按 22 维全集 dropna：各组共用同一批样本，否则组间不可比
+ds = F.build_dataset(df)
+ds = ds.sort_values(["d", "video_id"]).reset_index(drop=True)
 
 # ---------------------------------------------------------------- 特征分组
-CONTENT = ["dur_log", "is_ad", "up_type_idx", "tag_idx", "dow"]
-HEAT = ["play_user_num", "like_user_num", "complete_play_cnt", "like_rate", "complete_rate"]
-INERTIA = ["lag1_like", "lag2_like", "lag3_like",
-           "lag1_playuser", "lag2_playuser", "lag3_playuser", "lag1_likerate",
-           "roll7_like", "roll7_playuser", "roll7_complete", "n_prior_days", "gap_days"]
-ALL22 = CONTENT + HEAT + INERTIA
+# 分组定义已上移到 src/features.py（与 model_analysis / significance 共用）
+CONTENT, HEAT, INERTIA = F.CONTENT, F.HEAT, F.INERTIA
+ALL22 = F.FEATURES
 assert len(CONTENT) == 5 and len(HEAT) == 5 and len(INERTIA) == 12
 assert len(set(ALL22)) == 22, "特征重复"
 
@@ -129,14 +97,7 @@ GROUPS = [
     ("G8", "全部−roll7", ALL_NOR7),
 ]
 
-# 样本集固定：统一按 22 维全集 dropna，保证各组同一批样本
-ds = df.dropna(subset=ALL22).copy()
-ds = ds.sort_values(["d", "video_id"]).reset_index(drop=True)
-
-day_max = ds["d"].max()
-split_d = int((pd.to_datetime(str(day_max), format="%Y%m%d")
-               - pd.Timedelta(days=SPLIT_TAIL_DAYS)).strftime("%Y%m%d"))
-tr, te = ds[ds["d"] <= split_d], ds[ds["d"] > split_d]
+tr, te, split_d = F.split(ds)
 days_te = te["d"].values
 print(f"    样本 {len(ds):,}  train {len(tr):,}  test {len(te):,}  split={split_d}")
 print(f"    测试集 {te['d'].nunique()} 天，每日样本 {te.groupby('d').size().min()}–{te.groupby('d').size().max()}")
@@ -144,27 +105,12 @@ print(f"    测试集 {te['d'].nunique()} 天，每日样本 {te.groupby('d').si
 
 # ---------------------------------------------------------------- 评估函数（与 eval_upgrade.py 一致）
 def eval_per_day(scores, y, days, k=0.20):
-    scores = np.asarray(scores, dtype=float)
-    y = np.asarray(y)
-    hits = n_sel = 0
-    for d in np.unique(days):
-        m = days == d
-        s, yy = scores[m], y[m]
-        if len(s) == 0:
-            continue
-        n = max(int(m.sum() * k), 1)
-        idx = np.argsort(-s)[:n]
-        hits += int(yy[idx].sum())
-        n_sel += n
-    return dict(recall=hits / max(int(y.sum()), 1) * 100,
-                precision=hits / max(n_sel, 1) * 100)
+    d = F.eval_per_day(scores, y, days, k)
+    return dict(recall=d["recall"], precision=d["precision"])
 
 
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import roc_auc_score, average_precision_score
-import xgboost as xgb
+
 
 SCENARIOS = [
     dict(key="abs", label="label_abs", name="绝对热度（次日进前25%）", naive_col="like_user_num"),
@@ -182,14 +128,10 @@ result = {
 
 def fit_eval(feats, ytr, yte):
     Xtr, Xte = tr[feats], te[feats]
-    lr = make_pipeline(StandardScaler(),
-                       LogisticRegression(max_iter=3000, C=0.5,
-                                          class_weight="balanced", random_state=SEED))
+    lr = F.make_lr(SEED)
     lr.fit(Xtr, ytr)
     p_lr = lr.predict_proba(Xte)[:, 1]
-    xm = xgb.XGBClassifier(n_estimators=500, learning_rate=0.06, max_depth=6,
-                           subsample=0.9, colsample_bytree=0.9, eval_metric="auc",
-                           tree_method="hist", n_jobs=4, random_state=SEED)
+    xm = F.make_xgb(SEED)
     xm.fit(Xtr, ytr)
     p_xgb = xm.predict_proba(Xte)[:, 1]
     return p_lr, p_xgb

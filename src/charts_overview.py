@@ -12,7 +12,11 @@ import numpy as np
 import pandas as pd
 
 sys.stdout.reconfigure(encoding="utf-8")
-plt.rcParams["font.sans-serif"] = ["Microsoft YaHei", "SimHei"]
+# 跨平台中文字体回退（原实现只写了 Windows 字体，Linux/macOS 上出图全是方块）
+plt.rcParams["font.sans-serif"] = ["Microsoft YaHei", "SimHei", "PingFang SC",
+                                   "Heiti SC", "Noto Sans CJK SC",
+                                   "Source Han Sans SC", "WenQuanYi Micro Hei",
+                                   "DejaVu Sans"]
 plt.rcParams["axes.unicode_minus"] = False
 
 PROJ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

@@ -1,6 +1,7 @@
 # 数据文件体积过大（原始约 350 MB，清洗后约 580 MB），不随仓库分发
 data/raw/*
 data/clean/*
+data/mysql/
 !data/README.md
 
 # Python
@@ -9,6 +10,7 @@ __pycache__/
 *.egg-info/
 .venv/
 venv/
+.pytest_cache/
 
 # 编辑器 / 系统
 .vscode/

@@ -53,12 +53,16 @@ def main():
         blocks.append((cur_label, "\n".join(buf)))
 
     out = {}
+    fails = []
     for label, sql in blocks:
         try:
             cur.execute(sql)
             cols = [c[0] for c in cur.description]
             rows = cur.fetchall()
         except Exception as e:
+            # 不再静默 continue：一条 SQL 挂掉而脚本仍以 0 退出，
+            # 会让 run_all.py 打印「完成」，而 base_metrics.json 已经缺了一块。
+            fails.append((label, str(e)))
             print(f"[FAIL] {label}: {e}")
             continue
         key = re.split(r"[（(]", label)[0].strip()
@@ -73,7 +77,13 @@ def main():
     with open(os.path.join(PROJ, "outputs", "base_metrics.json"), "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
     conn.close()
-    print("saved outputs/base_metrics.json")
+    print(f"saved outputs/base_metrics.json（{len(out)}/{len(blocks)} 条查询成功）")
+
+    if fails:
+        print(f"\n{len(fails)} 条查询失败，base_metrics.json 不完整：")
+        for label, err in fails:
+            print(f"  - {label}: {err}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":

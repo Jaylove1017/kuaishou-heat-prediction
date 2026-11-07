@@ -1,5 +1,11 @@
 -- KuaiRec（快手官方公开论文数据）分析数仓 schema
 -- 说明：play_log 来自 big_matrix.csv.gz（播放行为流），video_daily 来自 item_daily_features.csv.gz（内容×日平台统计）
+--
+-- ⚠ 列顺序与 src/load_data.py 的 VD_COLS / PLAY_COLS 必须一致
+--   LOAD DATA 现在显式带列名（(...) 子句），不再依赖位置对齐；但表里多一列少一列
+--   仍然会让下游 SQL 拿到 NULL，所以改动任何一侧都要同步另一侧。
+--   历史上这里多了一个 click_like_cnt，而清洗脚本的 usecols 少写了它，
+--   导致第 30 列起整体错位一列且不报错 —— 详见 src/load_data.py 头部注释。
 CREATE DATABASE IF NOT EXISTS kuairec CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 USE kuairec;
@@ -17,8 +23,12 @@ CREATE TABLE play_log (
     KEY idx_video (video_id),
     KEY idx_user  (user_id),
     KEY idx_d     (d),
-    KEY idx_valid (is_valid)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    KEY idx_valid (is_valid),
+    -- 不建 UNIQUE：一次播放未必能由 (user_id,video_id,d,hour) 唯一确定
+    -- （同小时内可能重复播放），加唯一键有丢数据风险。
+    -- 改为建普通索引，供 load_data.py 的重复检测查询走索引，而不是全表扫。
+    KEY idx_play_dedup (user_id, video_id, d, hour)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; 
 
 DROP TABLE IF EXISTS video_daily;
 CREATE TABLE video_daily (

@@ -1,0 +1,30 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: 安装测试依赖
+        # 只装 pandas/numpy/pytest：tests/ 故意不依赖 xgboost/sklearn，
+        # 这样 CI 是本项目唯一每次提交都会跑的东西，而且几十秒内出结果。
+        run: pip install "pandas>=2.0,<4" "numpy>=1.24,<3" "pytest>=7,<10"
+
+      - name: 特征工程回归测试
+        run: python -m pytest tests/ -v
+
+      - name: 语法检查（全部脚本）
+        run: python -m compileall -q src experiments run_all.py
